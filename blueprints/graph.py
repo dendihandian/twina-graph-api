@@ -1,5 +1,6 @@
 import networkx as nx
-from flask import Blueprint, jsonify, request
+import logging
+from flask import Blueprint, jsonify, request, current_app
 from components.http_client import http_client
 from config.firebase import fb_db_base_url
 
@@ -33,17 +34,20 @@ def graphAnalysis():
     analysis = {
         'number_of_nodes': G.number_of_nodes(),
         'number_of_edges': G.number_of_edges(),
-        'clustering': nx.clustering(G),
-        'average_clustering': nx.average_clustering(G),
-        'square_clustering': nx.square_clustering(G),
-        'degree_centrality': nx.degree_centrality(G),
-        'closeness_centrality': nx.closeness_centrality(G),
-        'betweenness_centrality': nx.betweenness_centrality(G),
+        # 'clustering': nx.clustering(G),
+        # 'average_clustering': nx.average_clustering(G),
+        # 'square_clustering': nx.square_clustering(G),
+        # 'degree_centrality': nx.degree_centrality(G),
+        # 'closeness_centrality': nx.closeness_centrality(G),
+        # 'betweenness_centrality': nx.betweenness_centrality(G),
     }
 
-    # NOTE: not stored, debug this...
-    http_client.post(fb_db_base_url +
-                     body['analysis_path'] + ".json", analysis)
+    try:
+        # NOTE: not stored, try to debug this...
+        http_client.post(fb_db_base_url +
+                         body['analysis_path'] + ".json", analysis)
+    except Exception as e:
+        current_app.logger.error('Failed to post analysis: ' + str(e))
 
     return jsonify({
         'message': 'Graph analyzed',
