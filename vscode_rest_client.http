@@ -1,0 +1,11 @@
+# extension page: https://github.com/Huachao/vscode-restclient
+# TODO: Fix the request to be succeed...
+
+# Graph Analysis
+POST {{$dotenv .env TWINA_GRAPH_API_URL}}/graph/analysis HTTP/1.1
+content-type: application/json
+
+{
+    "graph_path": "/users/{{$dotenv .env VSCODE_REST_CLIENT_TEST_USER_ID}}/topics/{{$dotenv .env VSCODE_REST_CLIENT_TEST_TOPIC_ID}}/graph",
+    "analysis_path": "/users/{{$dotenv .env VSCODE_REST_CLIENT_TEST_USER_ID}}/topics/{{$dotenv .env VSCODE_REST_CLIENT_TEST_TOPIC_ID}}/graph_analysis"
+}
