@@ -30,10 +30,22 @@ def graphAnalysis():
         for source_target in graph['edges']
     ])
 
+    analysis = {
+        'number_of_nodes': G.number_of_nodes(),
+        'number_of_edges': G.number_of_edges(),
+        'clustering': nx.clustering(G),
+        'average_clustering': nx.average_clustering(G),
+        'square_clustering': nx.square_clustering(G),
+        'degree_centrality': nx.degree_centrality(G),
+        'closeness_centrality': nx.closeness_centrality(G),
+        'betweenness_centrality': nx.betweenness_centrality(G),
+    }
+
+    # NOTE: not stored, debug this...
+    http_client.post(fb_db_base_url +
+                     body['analysis_path'] + ".json", analysis)
+
     return jsonify({
-        'message': 'Analyzing graph',
-        'analysis': {
-            'clustering': nx.clustering(G),
-        }
-        # 'graph': graph.json()['nodes']
+        'message': 'Graph analyzed',
+        # 'data': analysis,
     })
