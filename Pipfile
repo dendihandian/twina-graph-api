@@ -11,6 +11,7 @@ networkx = "*"
 autopep8 = "*"
 requests = "*"
 python-dotenv = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.8"
